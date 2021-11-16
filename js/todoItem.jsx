@@ -43,7 +43,7 @@ var app = app || {};
 		},
 
 		getInitialState: function () {
-			return {editText: this.props.todo.title};
+			return {editText: this.props.todo.title, dueDate: this.props.todo.dueDate};
 		},
 
 		/**
@@ -54,10 +54,19 @@ var app = app || {};
 		 * of magnitude performance improvement.
 		 */
 		shouldComponentUpdate: function (nextProps, nextState) {
+			console.log("getting date", new Date().valueOf())
+			console.log(this.state.dueDate - new Date().valueOf() )
+			let due = false
+			if(this.state.dueDate != 0)
+			{
+				due = ( (this.state.dueDate - new Date().valueOf() ) < 0)
+			}
+			console.log(due)
 			return (
 				nextProps.todo !== this.props.todo ||
 				nextProps.editing !== this.props.editing ||
-				nextState.editText !== this.state.editText
+				nextState.editText !== this.state.editText ||
+				due
 			);
 		},
 
@@ -68,6 +77,7 @@ var app = app || {};
 		 * and https://facebook.github.io/react/docs/component-specs.html#updating-componentdidupdate
 		 */
 		componentDidUpdate: function (prevProps) {
+			console.log('updated')
 			if (!prevProps.editing && this.props.editing) {
 				var node = React.findDOMNode(this.refs.editField);
 				node.focus();
@@ -90,6 +100,11 @@ var app = app || {};
 						/>
 						<label onDoubleClick={this.handleEdit}>
 							{this.props.todo.title}
+						</label>
+						<label> 
+							Due: 
+							{(new Date(this.state.dueDate).getUTCMonth() + 1) + "-" + (new Date(this.state.dueDate).getUTCDate() + 1) + "-" + (new Date(this.state.dueDate).getUTCFullYear())}
+
 						</label>
 						<button className="destroy" onClick={this.props.onDestroy} />
 					</div>

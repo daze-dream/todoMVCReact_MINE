@@ -40,13 +40,14 @@ var app = app || {};
 	};
 
 	//adds a new todo using concat to not manipulate the original data directly
-	app.TodoModel.prototype.addTodo = function (title) {
+	app.TodoModel.prototype.addTodo = function ({title, dueDate}) {
 		this.todos = this.todos.concat({
 			id: Utils.uuid(),
 			title: title,
-			completed: false
+			completed: false,
+			dueDate: dueDate
 		});
-
+		console.log(this.todos)
 		this.inform();
 	};
 	/**toggles ALL items to be completed. checked is what to be toggled  */

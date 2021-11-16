@@ -51,12 +51,24 @@ var app = app || {};
 			event.preventDefault();
 
 			var val = this.state.newTodo.trim();
+			var title = this.state.newTodo.trim();
 
 			if (val) {
-				let dueDate = document.getElementById("datepick").value;
-				console.log(new Date(dueDate).valueOf())	
-				this.props.model.addTodo(val);
+				let originalDate = document.getElementById("datepick").value;
+				let dueDate = ""
+				if(originalDate == "") 
+				{	
+					originalDate = "0"
+					dueDate = 0
+				}
+				else{
+					dueDate = new Date(originalDate).valueOf();	
+
+				}
+				console.log("getting task due date", dueDate)
+				this.props.model.addTodo({title, dueDate});
 				this.setState({newTodo: ''});
+				document.getElementById("datepick").value = "";
 			}
 		},
 
