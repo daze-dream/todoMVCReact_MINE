@@ -86,6 +86,13 @@ var app = app || {};
 		},
 
 		render: function () {
+			let dueDate = "no due date"
+			let isOverdue = false;
+			if(this.state.dueDate != 0)
+			{
+				dueDate = "Due:" + (new Date(this.state.dueDate).getUTCMonth() + 1) + "-" + (new Date(this.state.dueDate).getUTCDate() + 1) + "-" + (new Date(this.state.dueDate).getUTCFullYear())
+				isOverdue = ( (this.state.dueDate - new Date().valueOf() ) < 0)
+			}
 			return (
 				<li className={classNames({
 					completed: this.props.todo.completed,
@@ -97,15 +104,16 @@ var app = app || {};
 							type="checkbox"
 							checked={this.props.todo.completed}
 							onChange={this.props.onToggle}
+							style={{cursor:"pointer"}}
 						/>
 						<label onDoubleClick={this.handleEdit}>
 							{this.props.todo.title}
-						</label>
-						<label> 
-							Due: 
-							{(new Date(this.state.dueDate).getUTCMonth() + 1) + "-" + (new Date(this.state.dueDate).getUTCDate() + 1) + "-" + (new Date(this.state.dueDate).getUTCFullYear())}
 
 						</label>
+						<span style={{fontSize: "16px", color: isOverdue? "red" : "black", margin: "0 0 0 60px"}}> 
+								{dueDate}
+							</span>
+
 						<button className="destroy" onClick={this.props.onDestroy} />
 					</div>
 					<input

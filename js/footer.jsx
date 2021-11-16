@@ -53,7 +53,16 @@ var app = app || {};
 									Completed
 							</a>
 						</li>
+						{' '}
+						<li>
+							<a
+								href="#/overdue"
+								className={classNames({selected: nowShowing === app.PAST_DUE_TODOS})}>
+									Overdue
+							</a>
+						</li>
 					</ul>
+					
 					{clearButton}
 				</footer>
 			);
